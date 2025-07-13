@@ -54,6 +54,67 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.app {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.messages {
+  width: 60vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  max-height: 80vh;
+}
+
+.message {
+  border-width: 1px;
+  border-color: black;
+  background: -webkit-repeating-linear-gradient;
+  width: fit-content;
+  font-size: 17px;
+  border-style: solid;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  max-width: 30vw;
+  overflow-x: wrap;
+}
+
+.message-sent {
+  align-self: flex-end;
+  border-radius: 12px 12px 0px 12px;
+  background: #77c5c2;
+}
+
+.message-recieved {
+  align-self: flex-start;
+  border-radius: 0px 12px 12px 12px;
+  background: #C5777A;
+}
+
+.chat-input {
+  width: 100vw;
+  max-width: 600px;
+  font-size: 1.2em;
+  padding: 1em;
+  border: none;
+  border-top: 1px solid #ddd;
+  outline: none;
+  box-sizing: border-box;
+  background: #fff;
+  color: #222;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

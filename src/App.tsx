@@ -1,25 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useWebSocket } from "./hooks/useWebsocket";
-
-type MessageSend = { action: "sendMessage", message: string };
-
-type MessageWrapper = {text: string, sent: boolean};
-
-function Message({ message } : { message: MessageWrapper }) {
-  if(message.sent) {
-    return (
-      <p>{message.text}</p>
-    )
-  }
-  
-  return (
-    <p>recieved: {message.text}</p>
-  );
-}
+import Message from "./components/Message";
+import type { MessageSend, MessageWrapper } from "./entities/models";
+import { ChatInput } from "./components/ChatInput";
 
 export default function App() {
-  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<MessageWrapper[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
+    }
+  }, [messages])
 
   const handleMessage = useCallback(
     (data: string) => setMessages(prev => [...prev, {text: data, sent: false}]),
@@ -31,22 +24,25 @@ export default function App() {
     handleMessage
   )
 
-  const handleSend = () => {
-    sendMessage({
-      action: 'sendMessage',
-      message: input
-    });
-    setInput("");
-    setMessages(prev => [...prev, {text: input, sent: true}])
+  const handleSend = (input: string) => {
+    if(input !== "") {
+      sendMessage({
+        action: 'sendMessage',
+        message: input
+      });
+      setMessages(prev => [...prev, {text: input, sent: true}])
+    }
   }
 
   return (
-    <div>
+    <div className="app">
+      <div className="messages"  >
         {messages.map((message, idx) => (
-          <Message key={idx} message={message}></Message>
-        ))}
-      <input value={input} onChange={e => setInput(e.target.value)}/>
-      <button onClick={handleSend}>Send</button>
+            <Message key={idx} message={message}></Message>
+          ))}
+        <div ref={messagesEndRef} />
+      </div>
+    <ChatInput onSend={handleSend}/>
     </div>
   )
 

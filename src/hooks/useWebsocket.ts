@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type MessageEventHandler<T> = (data : T) => void;
 
@@ -7,7 +7,6 @@ export function useWebSocket<TSend = any, TRecieve = any>(
     onMessage: MessageEventHandler<TRecieve>
 ) {
     const socketRef = useRef<WebSocket | null>(null);
-    const [messages, setMessages] = useState([]);
 
     const handleMessage = useCallback(
         (event : MessageEvent) => {
